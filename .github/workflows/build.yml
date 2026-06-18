@@ -19,9 +19,8 @@ jobs:
       with:
         python-version: '3.11'
     
-    - name: Install dependencies
-      run: |
-        pip install beautifulsoup4 requests
+    - name: Install Python dependencies
+      run: pip install beautifulsoup4 requests
     
     - name: Run scraper
       run: python scripts/scraper.py
@@ -34,16 +33,18 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-        cache: gradle
+    
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v3
+      with:
+        gradle-version: '8.2'
     
     - name: Build APK
-      run: |
-        chmod +x gradlew
-        ./gradlew assembleRelease
+      run: gradle assembleDebug
     
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
-        name: oraciones-app-release
-        path: app/build/outputs/apk/release/app-release-unsigned.apk
+        name: oraciones-app-debug
+        path: app/build/outputs/apk/debug/app-debug.apk
         retention-days: 30
