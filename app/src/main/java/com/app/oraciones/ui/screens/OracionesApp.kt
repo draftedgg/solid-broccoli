@@ -6,9 +6,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.app.oraciones.data.repository.ArticleRepository
 
 @Composable
-fun OracionesApp() {
+fun OracionesApp(repository: ArticleRepository) {
     val navController = rememberNavController()
     
     NavHost(navController = navController, startDestination = "home") {
@@ -37,6 +38,7 @@ fun OracionesApp() {
             }
             
             CategoryScreen(
+                repository = repository,
                 categoryId = categoryId,
                 categoryName = categoryName,
                 onArticleClick = { articleId ->
@@ -53,6 +55,7 @@ fun OracionesApp() {
             val articleId = backStackEntry.arguments?.getString("articleId") ?: ""
             
             ArticleScreen(
+                repository = repository,
                 articleId = articleId,
                 onBackClick = { navController.popBackStack() }
             )
