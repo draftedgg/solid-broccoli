@@ -14,3 +14,4 @@ python scripts/scraper.py
 python scripts/process_for_android.py
 
 # Abrir en Android Studio y ejecutar
+# solid-broccoli
