@@ -1,0 +1,15 @@
+.gradle/
+build/
+.idea/
+.navigation/
+captures/
+*.iml
+*.jks
+*.keystore
+app/src/main/assets/*.json
+*.apk
+.DS_Store
+__pycache__/
+*.py[cod]
+oraciones_data.json
+local.properties

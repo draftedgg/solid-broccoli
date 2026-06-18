@@ -1,0 +1,49 @@
+name: Build Oraciones App
+
+on:
+  push:
+    branches: [ main, master ]
+  schedule:
+    - cron: '0 2 * * 0'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        pip install beautifulsoup4 requests
+    
+    - name: Run scraper
+      run: python scripts/scraper.py
+    
+    - name: Process data
+      run: python scripts/process_for_android.py
+    
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: gradle
+    
+    - name: Build APK
+      run: |
+        chmod +x gradlew
+        ./gradlew assembleRelease
+    
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: oraciones-app-release
+        path: app/build/outputs/apk/release/app-release-unsigned.apk
+        retention-days: 30
